@@ -1,0 +1,19 @@
+{
+    "name": "kmf/ding",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "jxl",
+            "email": "jxl@kmf.com"
+        }
+    ],
+    "require": {
+        "mashape/unirest-php": "~3.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kmf\\Ding\\": "src"
+        }
+    }
+}

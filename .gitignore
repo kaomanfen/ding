@@ -1,0 +1,8 @@
+.env
+.idea/deployment.xml
+.idea/dingding.iml
+.idea/encodings.xml
+.idea/inspectionProfiles/
+.idea/modules.xml
+.idea/workspace.xml
+vendor/
