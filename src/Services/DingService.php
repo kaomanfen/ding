@@ -149,5 +149,37 @@ class DingService
         return $data;
     }
 
+    /**
+     * 获取钉钉二维码登录地址
+     *
+     * @author caoyang <caoyang@kmf.com>
+     * @return string
+     */
+    public function loginUrl()
+    {
+        $url = Enum\Constant::DING_BASE_HOST . '/sso/login/' . $this->app_id . '?ticket=' . $this->getTicket();
+        return $url;
+    }
 
+    /**
+     * 获取钉钉退出登录地址
+     *
+     * @param $path 退出登录后跳转地址
+     * @return string
+     */
+    public function logoutUrl($path)
+    {
+        $url = Enum\Constant::DING_API . '/sso/logout?path=' . $path;
+        return $url;
+    }
+
+    public function verify($token)
+    {
+        $obj = Unirest\Request::get(Enum\Constant::DING_API . '/sso/verify', null, [
+            'token' => $token,
+            'ticket' => $this->getTicKet()
+        ]);
+
+        return $obj->body;
+    }
 }
