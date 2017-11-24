@@ -81,7 +81,7 @@ class DingService
         ]);
         $list = !empty($obj->body->list) ? $obj->body->list : [];
         $list = Enum\Helper::object2array($list);
-        $list = Enum\Helper::keepFields($list, ['dingid', 'workcode', 'name', 'email', 'avatar']);
+        $list = Enum\Helper::keepFields($list, ['dingid', 'workcode', 'name', 'email', 'avatar', 'department_ids']);
         return $list;
     }
 
@@ -164,6 +164,7 @@ class DingService
     /**
      * 获取钉钉退出登录地址
      *
+     * @author caoyang <caoyang@kmf.com>
      * @param $path 退出登录后跳转地址
      * @return string
      */
@@ -181,5 +182,23 @@ class DingService
         ]);
 
         return $obj->body;
+    }
+
+    /**
+     * 获取部门以及子部门
+     * @author caoyang <caoyang@kmf.com>
+     *
+     * @param $ids
+     * @return array
+     */
+    public function getDepartments($ids)
+    {
+        $obj = Unirest\Request::get(Enum\Constant::DING_API . '/contacts/departments/get/ding?sub=true&ids=' . $ids, null, [
+            'ticket' => $this->getTicKet()
+        ]);
+
+        $list = !empty($obj->body->list) ? $obj->body->list : [];
+
+        return $list;
     }
 }
