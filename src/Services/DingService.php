@@ -74,11 +74,27 @@ class DingService
         return $list;
     }
 
-    public function getAllUsers()
+    /**
+     * Modified By zzY at 2018.01.16
+     * 获取全部用户或通过指定关键词进行模糊搜索，模糊搜索不能用户id
+     *  参数	            参数类型    必须      说明
+     *  ids	            string	    否	    | 分隔的钉钉ID列表
+     *  emptypes        string	    否	    | 分隔的员工类型列表，可为空，包括全职员工、全职教师、专职教师、兼职教师、兼职员工、在编实习
+     *  department_ids	string	    否	    | 分隔的钉钉部门ID列表，可为空
+     *  emails	        string	    否	    | 分隔的邮箱列表，可为空
+     *  workcodes	    string	    否	    | 分隔的工号ID列表，可为空
+     *  mobiles	        string	    否	    | 分隔的手机号码列表，可为空
+     *  names	        string	    否	    | 分隔的姓名列表，列表中只有一个值时返回模糊查询结果，可为空
+     *  logic	        string	    否	    and 或 or，条件的运算规则，默认为or，返回条件结果的合集
+     *  sub	            bool	    否	    true 返回包含子部门的数据，false只返回当前部门的数据
+     *  page	        int	        否	    数据量大的时候建议用分页 例如 1
+     * @param array $params  参数可空，用于兼容早期版本
+     * @return array|mixed
+     */
+    public function getAllUsers(array  $params = [])
     {
-        $obj = Unirest\Request::get(Enum\Constant::DING_API . '/contacts/users/get/ding', null, [
-            'ticket' => $this->getTicKet(),
-        ]);
+        $params['ticket'] = $this->getTicKet();
+        $obj = Unirest\Request::get(Enum\Constant::DING_API . '/contacts/users/get/ding', null, $params);
         $list = !empty($obj->body->list) ? $obj->body->list : [];
         $list = Enum\Helper::object2array($list);
         $list = Enum\Helper::keepFields($list, ['dingid', 'workcode', 'name', 'email', 'avatar', 'department_ids']);
